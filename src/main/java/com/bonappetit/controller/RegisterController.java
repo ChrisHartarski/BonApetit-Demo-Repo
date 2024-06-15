@@ -26,6 +26,9 @@ public class RegisterController {
 
     @GetMapping("/register")
     public String viewRegister() {
+        if(userService.isUserLoggedIn()) {
+            return "redirect:/home";
+        }
         return "register";
     }
 

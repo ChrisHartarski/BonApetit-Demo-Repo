@@ -64,5 +64,10 @@ public class UserServiceImpl implements UserService {
         return userSession.isUserLoggedIn();
     }
 
+    @Override
+    public User getLoggedUser() {
+        return userRepository.getUserById(userSession.getId()).orElse(null);
+    }
+
 
 }

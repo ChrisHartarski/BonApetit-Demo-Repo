@@ -26,6 +26,9 @@ public class LoginLogoutController {
 
     @GetMapping("/login")
     public String viewLogin() {
+        if(userService.isUserLoggedIn()) {
+            return "redirect:/home";
+        }
         return "login";
     }
 
@@ -50,5 +53,11 @@ public class LoginLogoutController {
         //login user and redirect to home
         userService.loginUser(loginData);
         return "redirect:/home";
+    }
+
+    @PostMapping("/logout")
+    public String logout() {
+        userService.logoutUser();
+        return "redirect:/";
     }
 }

@@ -2,6 +2,7 @@ package com.bonappetit.service;
 
 import com.bonappetit.model.dto.LoginUserDTO;
 import com.bonappetit.model.dto.RegisterUserDTO;
+import com.bonappetit.model.entity.User;
 
 public interface UserService {
     boolean usernameExists(String username);
@@ -11,4 +12,5 @@ public interface UserService {
     void loginUser(LoginUserDTO loginData);
     void logoutUser();
     boolean isUserLoggedIn();
+    User getLoggedUser();
 }
