@@ -1,6 +1,7 @@
 package com.bonappetit.model.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,6 +20,13 @@ public class Category {
     private Set<Recipe> recipes;
 
     public Category() {
+        this.recipes = new HashSet<>();
+    }
+
+    public Category(CategoryNameEnum categoryName, String description) {
+        super();
+        this.categoryName = categoryName;
+        this.description = description;
     }
 
     public long getId() {

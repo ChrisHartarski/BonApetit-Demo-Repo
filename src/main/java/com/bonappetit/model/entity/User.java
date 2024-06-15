@@ -16,9 +16,9 @@ public class User {
     private String password;
     @Column(nullable = false, unique = true)
     private String email;
-    @OneToMany(mappedBy = "added_by")
+    @OneToMany(mappedBy = "addedBy")
     private Set<Recipe> addedRecipes;
-    @OneToMany(mappedBy = "added_by")
+    @OneToMany(mappedBy = "addedBy")
     private Set<Recipe> favouriteRecipes;
 
     public User() {
