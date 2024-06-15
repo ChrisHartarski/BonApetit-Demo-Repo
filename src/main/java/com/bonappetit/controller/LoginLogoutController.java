@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
+
 @Controller
 public class LoginLogoutController {
     private final UserService userService;
@@ -28,7 +30,7 @@ public class LoginLogoutController {
     }
 
     @PostMapping("/login")
-    public String doLogin(LoginUserDTO loginData,
+    public String doLogin(@Valid LoginUserDTO loginData,
                           BindingResult bindingResult,
                           RedirectAttributes redirectAttributes) {
         //validate dto
