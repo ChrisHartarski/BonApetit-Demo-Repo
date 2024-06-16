@@ -6,21 +6,29 @@
 <header th:replace="fragments/commons::nav"></header>
 <main>
     <div class="container bg-blur rounded mt-1 mb-4">
-        <h6 class="bg-gray text-dark mb-0 mt-0">Welcome, {username}</h6>
+        <h6 class="bg-gray text-dark mb-0 mt-0">Welcome, <span th:text="${@userSession.getUsername()}">{username}</span></h6>
         <div class="row mt-1 mb-2">
             <div class="col-6 mt-1 mb-1">
 
                 <div>
-                    <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">Desserts ({count})</h3>
+                    <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">Desserts (<span th:text="${allRecipes.getAllDesserts().size()}">{count}</span>)</h3>
                     <div class="bg-dark rounded m-auto" style="height: 31vh; overflow: auto">
                         <table class="table table-striped table-dark">
-                            <tr>
+                            <tr th:each="recipe : ${allRecipes.getAllDesserts()}" >
                                 <td class="bg-warning" scope="row" style="width: 5%">
                                     <img class="mr-2 " src="/img/dessert.png" alt="Dessert" width="35px" height="35px">
                                 </td>
-                                <td>{name}</td>
-                                <td>{ingredients}</td>
-                                <td><a href="/"><img class="mr-2 " src="/img/add-to-favourites.png" alt="Dessert" width="35px" height="35px"></a></td>
+                                <td><span th:text="${recipe.name}">{name}</span></td>
+                                <td><span th:text="${recipe.ingredients}">{ingredients}</span></td>
+                                <td>
+                                    <form th:method="post" th:action="@{/home/{id}(id=${recipe.id})}">
+                                        <button class="btn btn-link" type="submit"><img class="mr-2 " src="/img/add-to-favourites.png" alt="Dessert" width="35px" height="35px"></button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form th:method="delete" th:action="@{/home/remove-{id}(id=${recipe.id})}">
+                                        <button class="btn btn-link" type="submit"><img class="mr-2 " src="/img/remove-icon.png" alt="Dessert" width="35px" height="35px"></button>
+                                    </form>
                                 </td>
                             </tr>
                         </table>
@@ -28,17 +36,26 @@
                 </div>
 
                 <div>
-                    <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">Cocktails ({count})</h3>
+                    <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">Cocktails (<span th:text="${allRecipes.getAllCocktails().size()}">{count}</span>)</h3>
                     <div class="bg-dark rounded m-auto" style="height: 31vh; overflow: auto">
                         <table class="table table-striped table-dark">
-                            <tr>
+                            <tr th:each="recipe : ${allRecipes.getAllCocktails()}" >
                                 <td class="bg-success" scope="row" style="width: 5%">
                                     <img class="mr-2 " src="/img/cocktail.png" alt="Cocktail" width="35px"
                                          height="35px">
                                 </td>
-                                <td>{name}</td>
-                                <td>{ingredients}</td>
-                                <td><a href="/"><img class="mr-2 " src="/img/add-to-favourites.png" alt="Cocktail" width="35px" height="35px"></a></td>
+                                <td><span th:text="${recipe.name}">{name}</span></td>
+                                <td><span th:text="${recipe.ingredients}">{ingredients}</span></td>
+                                <td>
+                                    <form th:method="post" th:action="@{/home/{id}(id=${recipe.id})}">
+                                        <button class="btn btn-link" type="submit"><img class="mr-2 " src="/img/add-to-favourites.png" alt="Cocktail" width="35px" height="35px"></button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form th:method="delete" th:action="@{/home/remove-{id}(id=${recipe.id})}">
+                                        <button class="btn btn-link" type="submit"><img class="mr-2 " src="/img/remove-icon.png" alt="Dessert" width="35px" height="35px"></button>
+                                    </form>
+                                </td>
                             </tr>
                         </table>
                     </div>
@@ -47,31 +64,45 @@
 
             <div class="col-6 mt-1 mb-1">
                 <div>
-                    <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">Main Dishes ({count})</h3>
+                    <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">Main Dishes (<span th:text="${allRecipes.getAllMainDishes().size()}">{count}</span>)</h3>
                     <div class="bg-dark rounded m-auto" style="height: 31vh; overflow: auto">
                         <table class="table table-striped table-dark">
-                            <tr>
+                            <tr th:each="recipe : ${allRecipes.getAllMainDishes()}" >
                                 <td class="bg-info" scope="row" style="width: 5%">
                                     <img class="mr-2 " src="/img/main-dish.png" alt="Main-Dish" width="35px" height="35px">
                                 </td>
-                                <td>{name}</td>
-                                <td>{ingredients}</td>
-                                <td><a href="/"><img class="mr-2 " src="/img/add-to-favourites.png" alt="Main-Dish" width="35px" height="35px"></a></td>
+                                <td><span th:text="${recipe.name}">{name}</span></td>
+                                <td><span th:text="${recipe.ingredients}">{ingredients}</span></td>
+                                <td>
+                                    <form th:method="post" th:action="@{/home/{id}(id=${recipe.id})}">
+                                        <button class="btn btn-link" type="submit"><img class="mr-2 " src="/img/add-to-favourites.png" alt="MainDish" width="35px" height="35px"></button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form th:method="delete" th:action="@{/home/remove-{id}(id=${recipe.id})}">
+                                        <button class="btn btn-link" type="submit"><img class="mr-2 " src="/img/remove-icon.png" alt="Dessert" width="35px" height="35px"></button>
+                                    </form>
+                                </td>
                             </tr>
                         </table>
                     </div>
                 </div>
 
                 <div>
-                    <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">Favourites ({count})</h3>
+                    <h3 class="mySticky bg-gray text-dark  mb-0 mt-2">Favourites (<span th:text="${favouriveRecipes.size()}">{count}</span>)</h3>
                     <div class="bg-dark rounded m-auto" style="height: 31vh; overflow: auto">
                         <table class="table table-striped table-dark">
-                            <tr>
+                            <tr th:each="recipe : ${favouriveRecipes}" >
                                 <td class="bg-primary" scope="row" style="width: 5%">
                                     <img class="mr-2 " src="/img/star.png" alt="Star" width="35px" height="35px">
                                 </td>
-                                <td>{name}</td>
-                                <td>{ingredients}</td>
+                                <td><span th:text="${recipe.getName()}">{name}</span></td>
+                                <td><span th:text="${recipe.getIngredients()}">{ingredients}</span></td>
+                                <td>
+                                    <form th:method="delete" th:action="@{/home/remove-favourite-{id}(id=${recipe.id})}">
+                                        <button class="btn btn-link" type="submit"><img class="mr-2 " src="/img/remove-icon.png" alt="Dessert" width="35px" height="35px"></button>
+                                    </form>
+                                </td>
                             </tr>
                         </table>
                     </div>

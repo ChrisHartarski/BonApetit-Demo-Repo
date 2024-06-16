@@ -3,6 +3,7 @@ package com.bonappetit.config;
 import com.bonappetit.model.entity.Recipe;
 import com.bonappetit.model.entity.User;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.HashSet;
@@ -44,5 +45,9 @@ public class UserSession {
 
     public Set<Recipe> getFavouriteRecipes() {
         return favouriteRecipes;
+    }
+
+    public void addFavouriteRecipe(Recipe recipe) {
+        getFavouriteRecipes().add(recipe);
     }
 }

@@ -1,5 +1,8 @@
 package com.bonappetit.model.entity;
 
+import org.springframework.context.annotation.EnableMBeanExport;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +21,9 @@ public class User {
     private String email;
     @OneToMany(mappedBy = "addedBy")
     private Set<Recipe> addedRecipes;
-    @OneToMany(mappedBy = "addedBy")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "recipe_id", referencedColumnName = "id"))
     private Set<Recipe> favouriteRecipes;
 
     public User() {

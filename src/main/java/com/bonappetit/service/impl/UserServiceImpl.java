@@ -2,13 +2,20 @@ package com.bonappetit.service.impl;
 
 import com.bonappetit.config.UserSession;
 import com.bonappetit.model.dto.LoginUserDTO;
+import com.bonappetit.model.dto.RecipeDetailsDTO;
 import com.bonappetit.model.dto.RegisterUserDTO;
+import com.bonappetit.model.entity.Recipe;
 import com.bonappetit.model.entity.User;
+import com.bonappetit.repo.RecipeRepository;
 import com.bonappetit.repo.UserRepository;
+import com.bonappetit.service.RecipeService;
 import com.bonappetit.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -16,12 +23,14 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final UserSession userSession;
+    private final RecipeRepository recipeRepository;
 
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserSession userSession) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, PasswordEncoder passwordEncoder, UserSession userSession, RecipeRepository recipeRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
         this.userSession = userSession;
+        this.recipeRepository = recipeRepository;
     }
 
     @Override
@@ -67,6 +76,30 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getLoggedUser() {
         return userRepository.getUserById(userSession.getId()).orElse(null);
+    }
+
+    @Override
+    public void addRecipeToFavourites(long id) {
+        Recipe recipe = recipeRepository.getById(id).orElse(null);
+
+        User user = userRepository.getUserById(userSession.getId()).get();
+        user.getFavouriteRecipes().add(recipe);
+        userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public void removeRecipeFromFavourites(long userId, long recipeId) {
+        User user = userRepository.getUserById(userId).get();
+        user.setFavouriteRecipes(user.getFavouriteRecipes().stream()
+                .filter(r -> r.getId() != recipeId)
+                .collect(Collectors.toSet()));
+        userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public void removeRecipeFromAllFavourites(long recipeId) {
+        userRepository.getAllBy()
+                .forEach(user -> removeRecipeFromFavourites(user.getId(), recipeId));
     }
 
 
